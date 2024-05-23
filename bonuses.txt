@@ -1,0 +1,70 @@
+BONUS CHALLENGE FORM
+--------------------
+
+For each bonus challenge you have implemented, please replace the sentence "We are not entitled to this bonus."
+with a short description of:
+
+1. How it was implemented in your code
+2. Where it was used (in which class methods).
+3. How you tested that it is working correctly.
+
+--------------------
+
+1. Fully supporting all configuration fields and avoiding the use of magic numbers
+
+1- In the code, all configuration fields are accessed via the env.config object.
+ Magic numbers are replaced with variables obtained from the env.config object.
+
+2- This approach is used throughout the codebase, especially in methods where
+ configuration parameters are utilized, such as run(), timerLoop(), shouldFinish(),
+  placeCardsOnTable(), and others in the Dealer and Player classes.
+
+3- Testing involved verifying that changing configuration values in the Env object
+   (such as turnTimeoutMillis, endGamePauseMillies, tableSize, etc.) had the intended
+   effect on the behavior of the game. This included checking if timeouts occurred as expected,
+   game termination happened correctly, and other game parameters behaved according to the
+   configured values. Additionally, code inspection was performed to ensure that no magic
+   numbers were present and that all parameters were accessed through the env.config object.
+
+--------------------
+
+2. Terminating all threads (that you created) gracefully and in reverse order to the order they were created in.
+    1- we moved from the end of players[] to the the start of this array and terminate each player
+       in this order, we did this because the dealer at the start of his run() method move from the start of the players[] and start each 
+       player's Thread . the dealer's Thread start to run first , and at the end of the game he terminated last. so we did it as you want.
+        
+    
+    2- at the terminate() method at dealer.java
+
+         
+    3- the dealer is the one that created the players thread he terminated them them also , at the teminate()
+       method in player.java we print that the player we just want to interrupt is terminated gracefully , 
+       we checked this and it printed it in the right order.
+
+    
+    
+    
+    
+    
+    at the terminate() method at dealer.java we moved from the end of players[] to the the start of this array and terminate each player
+    in this order, we did this because the dealer at the start of his run() method move from the start of the players[] and start each 
+    player's Thread . the dealer's Thread start to run first , and at the end of the game he terminated last. so we did it as you want.
+
+    
+
+--------------------
+
+3. Handling the config.turnTimeoutMillis value as follows:
+config.turnTimeoutMillis < 0: display nothing.
+config.turnTimeoutMillis = 0: display a timer since the last action (reshuffle or set collected).
+Note: in modes without a countdown timer the dealer must ensure there is always at least one legal set on the table.
+
+We are not entitled to this bonus.
+
+--------------------
+
+4. Making sure that the threads do not wake up unless some actual job needs to be done (e.g., a value needs to be
+changed on the display, key input needs to be handled, etc.) and the only threads created by you are:
+1 thread per player + 1 additional thread for non-human players.
+
+We are not entitled to this bonus.
