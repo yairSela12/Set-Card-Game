@@ -72,24 +72,27 @@ public class Dealer implements Runnable {
         }
 
         while (!shouldFinish()) {
-            reshuffleTime = System.currentTimeMillis() + env.config.turnTimeoutMillis;
             placeCardsOnTable();
-            timerLoop();
-            updateTimerDisplay(true);
+            reshuffleTime = System.currentTimeMillis() + env.config.turnTimeoutMillis;
             updateTimerDisplay(false);
+            
+            timerLoop();
+            //updateTimerDisplay(true);
             removeAllCardsFromTable();
         }
         if(!terminate){
             terminate();
         }
         announceWinners();
+        
         env.logger.info("thread " + Thread.currentThread().getName() + " terminated.");
-
+        
         try{
             Thread.sleep(env.config.endGamePauseMillies);
         }
         catch(InterruptedException ignored){}
-
+        
+        
     }
 
     /**
@@ -129,13 +132,13 @@ public class Dealer implements Runnable {
      */
     private void removeCardsFromTable() {
     
-            Integer idFirst;
+            int idFirst;//// 
             
             while(!playerSetCompleteQueue.isEmpty()){
                 
                 idFirst = playerSetCompleteQueue.remove();
                 Player firstPlayer =  null ;
-                    boolean found = false;
+                boolean found = false;
 
                 for(int i = 0 ; i < players.length && !found; i++) {
                      if(players[i].getId() == idFirst){
@@ -151,22 +154,12 @@ public class Dealer implements Runnable {
                     }         
                     boolean isSet =  env.util.testSet(cards);
                     if(isSet){
-                        int[] preNumOFtok  = new int[players.length];
-                        for(int i = 0 ; i < players.length ; i++){
-                            preNumOFtok[i] = table.numOfTokens[i];
-                        }
-
                         table.removeCard(table.playerTokens[idFirst][0]);
                         table.removeCard(table.playerTokens[idFirst][1]);
                         table.removeCard(table.playerTokens[idFirst][2]);
                         
-                        for(int i = 0 ; i < players.length ; i++){
-                            if(table.numOfTokens[i] < preNumOFtok[i] ){
-                                
-                            }               
-                        }
                         firstPlayer.isSet.add(true);
-                        }
+                    }
                     else{
                         for (int i = 0 ; i < 3 ; i++){
                             table.removeToken(idFirst , table.playerTokens[idFirst][i]);
@@ -197,16 +190,14 @@ public class Dealer implements Runnable {
         if(cardsinTable == tableSize)
             return;
        
-        else if(cardsinTable < tableSize){
+        else if(cardsinTable < tableSize){////////////////////////////////// change a little bit here./////////
             int numOfIter = Math.min(tableSize - cardsinTable , cardsinDeck);
-            while(numOfIter > 0) {
-                for(int i = 0 ; i < tableSize ; i++){
+            for(int i = 0 ; i < tableSize && numOfIter > 0 ; i++){
                     if(table.slotToCard[i] == null){
                         table.placeCard(deck.remove(0),i);
                         numOfIter--;
                     }
-                }
-            }
+                }    
         }
         System.out.println("hints are:");
         table.hints();

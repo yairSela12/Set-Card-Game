@@ -29,7 +29,7 @@ public class Table {
      * Mapping between a card and the slot it is in (null if none).
      */
     protected final Integer[] cardToSlot; // slot per card (if any)
-
+    
     /**
      * Mapping between a player and the slots that token putted there (-1 if none).
      */
